@@ -1,0 +1,40 @@
+	<div class="page-header">
+		<h1>Se connecter</h1>
+	</div>
+	
+  <!-- Formulaire login -->
+ <%= form_for @user_session, :url => user_sessions_path, :html => {:class => "form-horizontal"} do |f| %>
+	<form class="form-horizontal" action="index.html">
+		<div class="row-fluid">
+			<div class="span3"></div>
+			<div class="span4">
+				<div class="control-group">
+					<label class="control-label" for="inputID">Identifiant</label>
+          <div class="controls">
+            <%= f.text_field :username, :id => "inputID", :placeholder =>"Login" %>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="inputMDP">Mot de passe</label>
+					<div class="controls">
+            <%= f.password_field :password, :id => "inputMDP", :placeholder => "Password" %>
+					</div>
+				</div>
+			</div>
+			<div class="span4"></div>
+		</div>
+		
+		<footer class="form-actions">
+			<button type="submit" class="btn btn-primary">Se connecter</button>
+			<input type="checkbox" id="persistLogin" name="persistLogin" />
+			<label class="checkbox" for="persistLogin">Rester connecté</label>
+		</footer>
+  <%end%>
+	<!-- FIN Formulaire login -->
+
+
+<h1>Login</h1>
+
+<%= render 'form' %>
+
+<%= link_to 'Back', user_sessions_path %>

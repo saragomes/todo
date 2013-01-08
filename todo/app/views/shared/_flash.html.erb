@@ -1,0 +1,27 @@
+<% if flash[:error] %>
+<div class="alert alert-error">
+  <button type="button" class="close" data-dismiss="alert">×</button>
+  <h4>Erreur : </h4>
+  <%= flash[:error] %>
+</div>
+<%elsif flash[:notice]%>
+<div class="alert alert-info">
+  <button type="button" class="close" data-dismiss="alert">×</button>
+  <h4>Information : </h4>
+  <%= flash[:notice] %>
+</div>
+<%elsif flash[:warning]%>
+<div class="alert alert-block">
+  <button type="button" class="close" data-dismiss="alert">×</button>
+  <h4>Alerte : </h4>
+  <%= flash[:warning] %>
+</div>
+<%elsif flash[:success]%>
+<div class="alert alert-success">
+  <button type="button" class="close" data-dismiss="alert">×</button>
+  <h4>Succès :</h4>
+  <%= flash[:success] %>
+</div>
+<%end %>
+
+

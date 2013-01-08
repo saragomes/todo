@@ -1,0 +1,115 @@
+	
+   <div class="page-header">
+			<h1>Liste des transactions</h1>
+		</div>
+
+    <!-- Recherche avancée -->
+    <%=form_for :anonymous_cvd, :html => {:method => 'get', :id => 'advancedSearch', :class => "form-horizontal"} do |f|%>
+			<div class="row-fluid">
+			<div class="span6">
+				<div class="control-group">
+					<label class="control-label" for="identifier">Référence</label>
+					<div class="controls">
+           <%= text_field_tag :search, nil, {:placeholder => "Identifiant.......",  :autocomplete => :off} %>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="dateBegin">Entre le</label>
+					<div class="controls form-inline">
+					  <% now = Time.now %>
+						<div class="input-append date callDatepicker" data-date="<%=now%>" data-date-format="yyyy-mm-dd" id="start">
+              <%= f.text_field :created_at_gte, :id => "dateBegin", :class => "input-mini", :autocomplete => :off%>
+							<span class="add-on btn"><i class="icon-calendar"></i></span>
+						</div>
+
+						<div class="nowrap">
+							<label for="dateEnd">Et le </label>
+              <div class="input-append  date callDatepicker" data-date="<%= now %>" data-date-format="yyyy-mm-dd" id="end">
+								 <%= f.text_field :created_at_lte, :id => "dateEnd", :class => "input-mini", :autocomplete => :off%>
+								<span class="add-on btn"><i class="icon-calendar"></i></span>
+							</div>
+						</div> 
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Statut</label>
+					<div class="controls">
+            <%= f.select :status,[["Emise", "created"],[" Annulée", "cancelled"], ["Finalisée", "finalized"]], {:include_blank => true } %>
+					</div>
+				</div>
+			</div>
+			
+			<div class="span6">
+				<div class="control-group">
+					<label class="control-label" for="montant01">Montant</label>
+					<div class="controls">
+					   <%= f.text_field :amount, :class => "input-small", :autocomplete => :off %>
+					</div>
+				</div>
+        <div class="control-group">
+					<label class="control-label" for="montant03">Final</label>
+					<div class="controls">
+						 <%= f.text_field :final_amount, :class => "input-small", :autocomplete => :off %>
+					</div>
+				</div>
+			</div>
+			</div>
+			
+			<div class="footer">
+				<button type="reset" class="btn" onclick="window.location = window.location.pathname;">Réinitialiser</button>
+				<button type="submit" class="btn btn-primary">Filtrer</button>
+			</div>
+    <%end%>
+		<!-- FIN recherche avancée -->
+
+
+	<!-- Recherche rapide et Pagination -->
+		<div class="row-fluid">
+			<div class="span6">	
+       <%=form_for :anonymous_cvd, :html => {:method => 'get', :id => 'simpleSearch'} do |f|%>
+				<div class="input-append" id="quickSearch">
+           <%= hidden_field_tag :direction, params[:direction] %>
+           <%= hidden_field_tag :sort, params[:sort] %>
+           <input type="text" class="" name = "search" id="appendedInput" value="" placeholder="Recherche rapide", autocomplete = "off" />
+					<span class="add-on"></span>
+				</div>
+      <%end%>
+			</div>
+
+     
+			<div class="span6" id = "pagination">
+        <%= render :partial => '/shared/pagination'%>
+      </div>
+		</div>
+		<!-- FIN recherche rapide et pagination --> 
+
+
+  <div id = "anonymous_cvds"><%#= render :partial => "anonymous_cvds"%></div>
+ 
+<h1>Listing tasks</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Date</th>
+    <th>Done</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @tasks.each do |task| %>
+  <tr>
+    <td><%= task.name %></td>
+    <td><%= task.date %></td>
+    <td><%= task.done %></td>
+    <td><%= link_to 'Show', task %></td>
+    <td><%= link_to 'Edit', edit_task_path(task) %></td>
+    <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Task', new_task_path %>
