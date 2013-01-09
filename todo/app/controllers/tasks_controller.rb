@@ -51,18 +51,12 @@ class TasksController < ApplicationController
   end
   
   def destroy_multiple
-    @tasks = Task.find params[:tasks_id].to_a
-    
-    puts "params[:tasks_id].to_a"
-    pp params[:tasks_id].to_a
-    
-    puts "destroy_multipleeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
-    pp @tasks
-    
-    @tasks.each do |task|
-      #task.destroy
+    @tasks_to_destroy = Task.find params["task_ids"]
+    @tasks_to_destroy.each do |task|
+      task.destroy
     end
     flash[:notice] = "Destroyed tasks!"
+    @tasks = @current_user.tasks.paginate(:per_page => 20, :page => params[:page])
     respond_to do |format|
       format.html { redirect_to tasks_path }
       format.js { render :index }
