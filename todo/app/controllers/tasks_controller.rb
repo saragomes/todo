@@ -53,6 +53,9 @@ class TasksController < ApplicationController
   def destroy_multiple
     @tasks = Task.find params[:tasks_id].to_a
     
+    puts "params[:tasks_id].to_a"
+    pp params[:tasks_id].to_a
+    
     puts "destroy_multipleeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
     pp @tasks
     

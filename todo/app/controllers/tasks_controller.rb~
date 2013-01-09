@@ -2,7 +2,6 @@ class TasksController < ApplicationController
   respond_to :html, :json
   before_filter :require_user
   helper_method :sort_column, :sort_direction
-  autocomplete :category, :name
   
   def index
     search
@@ -53,6 +52,9 @@ class TasksController < ApplicationController
   
   def destroy_multiple
     @tasks = Task.find params[:tasks_id].to_a
+    
+    puts "params[:tasks_id].to_a"
+    pp params[:tasks_id].to_a
     
     puts "destroy_multipleeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
     pp @tasks
