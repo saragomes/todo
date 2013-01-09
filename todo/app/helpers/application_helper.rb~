@@ -23,7 +23,7 @@ module ApplicationHelper
   end #end of direction_css
 
 private
-    def flatten_keys(options, pr = {}, prefix = nil)
+  def flatten_keys(options, pr = {}, prefix = nil)
     return "" unless options.kind_of? Hash
     options.collect do |key, value|
       full_key = prefix ?  "#{prefix}[#{key}]" : key

@@ -6,44 +6,47 @@
     <%= stylesheet_link_tag "application"%>
     <%= stylesheet_link_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/redmond/jquery-ui.css", "application" %>
     <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js", "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js", "application" %>
-
-
   </head>
   <body>
-    
-    <% if current_user %>
     <!-- Navbar -->
 	  <header>
-	  <div class="navbar navbar-inverse navbar-fixed-top">
-		  <div class="navbar-inner">
-			  <div class="container">
-			    <%= link_to "Todo", root_url, :class => "brand" %>
-				  <a class="brand" href="/">Todo</a>
-				  <ul class="nav">
-					  <li class="active"><%= link_to "Tasks", tasks_path %></li>
-				  </ul>
+	    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container"><!-- Collapsable nav bar -->
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+            <!-- Your site name for the upper left corner of the site -->
+            <%= link_to "Todo", root_url, :class => "brand" %>
+             <ul class="nav">
+                <li class="active"><%= link_to "Tasks", tasks_path %></li>
+             </ul>
 
-				  <div class="btn-group">
-            <a href="<%= edit_user_path(current_user.id) %>" class="btn btn-primary"><i class="icon-user icon-white"></i><%= current_user.username%></a>
-					  <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-					  <ul class="dropdown-menu">
-						  <li><a href="<%= edit_user_path(current_user.id) %>"><i class="icon-pencil"></i> Modifier le compte</a></li>
-						  <li class="divider"></li>
-						  <li><a href="/logout"><i class="icon-off"></i> Déconnexion</a></li>
-					  </ul>
-				  </div>																
-			  </div>
-		  </div>
+            <!-- Start of the nav bar content -->
+            <div class="nav-collapse"><!-- Other nav bar content -->
+              <ul class="nav pull-right">
+                <% if current_user %>
+                  <li><a href="<%= edit_user_path(current_user) %>"><%= current_user.username %></a></li>
+                  <li class="divider-vertical"></li>
+                  <li><a href="/logout">Sign Up</a></li>
+                <% else %>
+                  <li><a href="/login">Sign In</a></li>
+                  <li class="divider-vertical"></li>
+                  <li><a href="<%= new_user_path %>">Register</a></li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
 	  </header>
 	  <!-- FIN navbar -->
-    <% else %>
-      <a href="<%= new_user_path %>" class="btn btn-primary"><i class="icon-user icon-white"></i>Register</a> | 
-      <a href="<%= login_path %>" class="btn btn-primary"><i class="icon-user icon-white"></i>Login</a>
-    <% end %>
+	  
    	<!-- Conteneur central -->
     <div class="container" id="global">
-      <%= render :partial => "shared/flash", :locals => {:flash => flash}%> 
+      <%= render :partial => "shared/flash", :locals => {:flash => flash} %><br /><br />
       <%= yield %>
     </div>
     <!-- FIN conteneur central -->

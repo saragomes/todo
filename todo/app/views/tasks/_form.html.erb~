@@ -1,35 +1,32 @@
-<%= form_for(@task) do |f| %>
-  <% if @task.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>
+<!-- Form task -->
+<%#= form_for @task = Task.new, :remote => true, :url => { :controller => "tasks", :action => "create" } do |f| %>
+<%= form_for @task = Task.new, :remote => true do |f| %>
+  <div class="modal-body">
+    <% if @task.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>
+        <ul>
+        <% @task.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
 
-      <ul>
-      <% @task.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+    <div class="field">
+      <%= f.text_field :name, {:placeholder => "Description"} %>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
+    
+    <div class="field">
+      <%= f.text_field :date, {:placeholder => "Date", 'data-behaviour' =>'datepicker'} %>
+    </div>
+    
+    <div class="field">
+      <%= f.text_field :category_id, {:placeholder => "Category"} %>
+    </div>
   </div>
-  
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  
-  <div class="field">
-    <%= f.label :date %><br />
-    <%= f.text_field 'date', 'data-behaviour' =>'datepicker' %>
-  </div>
-  <div class="field">
-    <%= f.label :done %><br />
-    <%= f.check_box :done %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Close</a>
+    <i class="icon-plus"></i><%= f.submit " Add", :class => "btn btn-primary" %>
   </div>
 <% end %>

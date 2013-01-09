@@ -1,30 +1,38 @@
-  <!-- Tableau des données -->				
-		<table class="table table-striped table-sorting">
-			<thead> 
-				<tr>
-					<th scope="col"><i class="icon-tri-off"></i></th>
-					<th scope="col"><%=sortable(:name, "Task")%></button><i class="<%= direction_css(:name)%>"></i></th>
-					<th scope="col"><%=sortable(:category, "Category")%><i class="<%= direction_css(:category)%>"></i></th>
-					<th scope="col"><%=sortable(:date, "Date")%> (€)<i class="<%= direction_css(:date)%>"></i></th>
-					<th scope="col">Action<i class="icon-tri-off"></i></th>
-				</tr>
-			</thead>
-			<tbody>
-        <% for task in @tasks %>
-				<tr>
-					<td></td>
-					<td><%=h task.name %></td>
-					<td><%=h task.category.name %></td>
-					<td><%=h task.date %></td>
-					<td></td>
-					<td>-</td>
-				</tr>
-        <%end%>
-				</tr>
-      </tbody>
-  </table>
-  <div class="pagination-right">
-    <%= render :partial => '/shared/pagination'%>
-  </div>
+<!-- Tableau des données -->				
+<table class="table table-striped table-sorting">
+	<thead> 
+		<tr>
+			<th scope="col"><i class="icon-tri-off"></i></th>
+			<th scope="col"><%=sortable(:name, "Task")%></button><i class="<%= direction_css(:name)%>"></i></th>
+			<th scope="col">Category<i class="icon-tri-off"></i></th>
+			<th scope="col"><%=sortable(:date, "Date")%><i class="<%= direction_css(:date)%>"></i></th>
+			<th scope="col">Action<i class="icon-tri-off"></i></th>
+		</tr>
+	</thead>
+	<tbody>
+    <%= form_tag :destroy_multiple_tasks, :id => "form_destroy", :remote => true do %>
+      <% for task in @tasks %>
+		  <tr style="color: <%= line_color(task) %>" >
+			  <td><%= check_box_tag "task_ids[]", task.id %></td>
+			  <td><%= best_in_place task, :name %></td>
+			  <td><%= best_in_place task, :category_id, :type => :select, :collection => @current_user.categories.map {|u| [u.id, u.name]} %>
+			  <td><%= best_in_place task, :date, :type => :date %></td>
+			  <td>
+			    <% if task.done %>
+			      <i class="icon-ok-sign" alt="done"></i>
+			    <% else %>
+			      <i class="icon-chevron-right" alt="Not yet, click to do it!" onclick="done(<%= task.id %>)"></i>
+			    <% end %>
+			    <i class="icon-remove-sign" onclick="remove(<%= task.id %>)"></i>
+		  </tr>
+      <% end %>
+		</tr>
+		  <button type="submit" class="btn" onclick="destroy_selection();"><i class="icon-minus"></i> Delete selection</button>
+    <% end %>
+  </tbody>
+</table>
+<div class="pagination-right" id = "pagination">
+  <%= render :partial => '/shared/pagination'%>
+</div>
 
 

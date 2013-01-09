@@ -5,4 +5,8 @@ class User < ActiveRecord::Base
   attr_accessible :crypted_password, :email, :password_salt, :persistence_token, :username, :password, :password_confirmation
   has_many :tasks
   has_many :categories
+  
+  def today_tasks
+    self.tasks.all :conditions => ["date = ? and done = ?", Date.today, false ]
+  end
 end

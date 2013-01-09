@@ -35,6 +35,9 @@ GEM
       activerecord (>= 3.0.0)
       activesupport (>= 3.0.0)
     awesome_print (1.1.0)
+    best_in_place (2.0.2)
+      jquery-rails
+      rails (~> 3.1)
     bootstrap-datepicker-rails (0.6.35)
       railties (>= 3.0)
     bootstrap-will_paginate (0.0.9)
@@ -116,6 +119,8 @@ GEM
       activesupport (= 3.2.9)
       bundler (~> 1.0)
       railties (= 3.2.9)
+    rails3-jquery-autocomplete (1.0.10)
+      rails (~> 3.0)
     railties (3.2.9)
       actionpack (= 3.2.9)
       activesupport (= 3.2.9)
@@ -187,6 +192,7 @@ DEPENDENCIES
   ZenTest
   authlogic
   awesome_print
+  best_in_place
   bootstrap-datepicker-rails
   bootstrap-will_paginate
   capistrano
@@ -196,6 +202,7 @@ DEPENDENCIES
   jquery-rails
   mysql2
   rails (= 3.2.9)
+  rails3-jquery-autocomplete
   rake
   rspec-rails
   ruby-debug19

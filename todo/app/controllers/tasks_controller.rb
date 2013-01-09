@@ -1,95 +1,108 @@
 class TasksController < ApplicationController
-
+  respond_to :html, :json
   before_filter :require_user
   helper_method :sort_column, :sort_direction
+  autocomplete :category, :name
   
   def index
-    @tasks = @current_user.tasks.paginate(:per_page => 20, :page => params[:page]) 
+    search
+    @tasks = @tasks.paginate(:per_page => 5, :page => params[:page])
+    @categories = @current_user.categories.map(&:name).compact.reject(&:blank?)
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
+      format.js
       format.json { render json: @tasks }
     end
   end
 
-  # GET /tasks/1
-  # GET /tasks/1.json
-  def show
-    @task = Task.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @task }
-    end
-  end
-
-  # GET /tasks/new
-  # GET /tasks/new.json
-  def new
-    @task = Task.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @task }
-    end
-  end
-
-  # GET /tasks/1/edit
-  def edit
-    @task = Task.find(params[:id])
-  end
-
-  # POST /tasks
-  # POST /tasks.json
   def create
     @task = Task.new(params[:task])
     @task.user = @current_user
-    @task.category_id = 1
+    @task.done = false
+    @category = Category.find_or_create_by_name_and_user_id params[:task][:category_id], @current_user.id
+    @task.category = @category
     respond_to do |format|
       if @task.save
-        format.html { redirect_to @task, notice: 'Task was successfully created.' }
-        format.json { render json: @task, status: :created, location: @task }
+        @tasks = @current_user.tasks.paginate(:per_page => 5, :page => params[:page]) 
+        format.html { redirect_to tasks_url, notice: 'Task was successfully created.' }
+        format.js { render }
       else
         format.html { render action: "new" }
-        format.json { render json: @task.errors, status: :unprocessable_entity }
+        format.js { render }
       end
     end
   end
 
-  # PUT /tasks/1
-  # PUT /tasks/1.json
   def update
     @task = Task.find(params[:id])
-
-    respond_to do |format|
-      if @task.update_attributes(params[:task])
-        format.html { redirect_to @task, notice: 'Task was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @task.errors, status: :unprocessable_entity }
-      end
-    end
+    @task.update_attributes(params[:task])
+    respond_with @task
   end
 
-  # DELETE /tasks/1
-  # DELETE /tasks/1.json
   def destroy
-    @task = Task.find(params[:id])
+    @task = @current_user.tasks.find(params[:id])
     @task.destroy
-
+    @tasks = @current_user.tasks.paginate(:per_page => 5, :page => params[:page])
+    @task.destroy_category?
+    
     respond_to do |format|
-      format.html { redirect_to tasks_url }
-      format.json { head :no_content }
+      format.html { redirect_to tasks_url, notice: 'Task destroyed!' }
+      format.js { render :index }
+    end
+  end
+  
+  def destroy_multiple
+    
+  
+    @tasks = Task.find [49, 50]
+    
+    puts "destroy_multipleeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    pp @tasks
+    
+    @tasks.each do |task|
+      #task.destroy
+    end
+    flash[:notice] = "Destroyed tasks!"
+    respond_to do |format|
+      format.html { redirect_to tasks_path }
+      format.js { render :index }
+    end
+  end
+  
+  def filter_by_category
+    @tasks = @current_user.tasks.paginate(:per_page => 5, :page => params[:page])
+    @tasks = @tasks.all :conditions => ["category_id = ?", params[:category]] unless params[:category].eql?""
+    respond_to do |format|
+      format.html { redirect_to tasks_path }
+      format.js { render :index }
+    end
+  end
+  
+  def done
+    @task = @current_user.tasks.find(params[:id])
+    @task.update_attribute(:done, true)
+    @task.update_attribute(:done, true)
+    @tasks = @current_user.tasks.paginate(:per_page => 5, :page => params[:page])
+    respond_to do |format|
+      format.html { redirect_to tasks_path }
+      format.js { render :index }
     end
   end
   
 private
-  def sort_column
-    columns = %w[id status created_at amount]
-    columns[params[:iSortCol_0].to_i]
+  def search
+    @tasks = @current_user.tasks
+    @tasks = @tasks.order("#{params[:sort]} #{params[:direction]}")
+    @tasks = @tasks.joins(:category).where("tasks.name like ? OR categories.name like ? 
+             ", "%#{params[:search]}%", "%#{params[:search]}%") unless params[:search].blank? 
   end
-
+  
+  def sort_column
+    Task.column_names.include?(params[:sort]) ? params[:sort] : "name"
+  end
+  
   def sort_direction
-    params[:sSortDir_0] == "desc" ? "desc" : "asc"
-  end  
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+  end
+  
 end

@@ -3,6 +3,15 @@ class Task < ActiveRecord::Base
   belongs_to :user
   belongs_to :category
   
-  validates_uniqueness_of :name
-  validates_presence_of :name, :user, :category, :date, :done
+  validates_presence_of :name, :user, :category, :date
+  
+  def late?
+    self.date <= Date.today && !self.done
+  end
+  
+  def destroy_category?
+    return false if self.category.nil?
+    return self.category.destroy if self.category.tasks.empty?
+    false
+  end
 end

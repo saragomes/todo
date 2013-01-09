@@ -3,11 +3,11 @@
 FactoryGirl.define do
   factory :user do
     sequence(:username) {|n| "name_#{n}"}
-    sequence(:email) {|n| "test_#{n}@test.com"}
+    sequence(:email) {|n| "test_#{n}@test.com"
     crypted_password "MyString"
     password "MyString"
     password_confirmation "MyString"
     password_salt "MyString"
-    sequence(:persistence_token) {|n| "persistence_token_#{n}"}
+    sequence(:persistence_token) {|n| "persistence_token_#{n}"
   end
 end

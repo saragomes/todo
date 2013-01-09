@@ -1,0 +1,4 @@
+$('#tasks').html('<%= escape_javascript(render("tasks")) %>');
+$('#pagination').html('<%= escape_javascript(render("/shared/pagination")) %>');
+$('#today_tasks').html("<%= escape_javascript(pluralize(@current_user.today_tasks.count, 'task') )%>");
+<%= raw @categories %>
