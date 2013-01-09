@@ -23,6 +23,7 @@ describe TasksController do
   # This should return the minimal set of attributes required to create a valid
   # Task. As you add validations to Task, be sure to
   # update the return value of this method accordingly.  
+=begin
   before do
     @current_user = FactoryGirl.build :user
     login(@current_user)
@@ -169,5 +170,5 @@ describe TasksController do
       response.should redirect_to(tasks_url)
     end
   end
-
+=end
 end

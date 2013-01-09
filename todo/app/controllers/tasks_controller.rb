@@ -55,7 +55,6 @@ class TasksController < ApplicationController
     @tasks_to_destroy.each do |task|
       task.destroy
     end
-    flash[:notice] = "Destroyed tasks!"
     @tasks = @current_user.tasks.paginate(:per_page => 20, :page => params[:page])
     respond_to do |format|
       format.html { redirect_to tasks_path }
