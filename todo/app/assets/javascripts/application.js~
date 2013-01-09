@@ -11,16 +11,15 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require_self
+//= require jquery
 //= require jquery-latest
 //= require bootstrap.min
 //= require bootstrap-datepicker
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.fr
 //= require jquery.purr
 //= require best_in_place
-//= require jquery
 //= require jquery_ujs
 //= require jquery-ui
-//= require autocomplete-rails
 //= require_tree .
 
 
