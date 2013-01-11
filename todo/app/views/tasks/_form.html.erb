@@ -1,5 +1,4 @@
 <!-- Form task -->
-<%#= form_for @task = Task.new, :remote => true, :url => { :controller => "tasks", :action => "create" } do |f| %>
 <%= form_for @task = Task.new, :remote => true do |f| %>
   <div class="modal-body">
     <% if @task.errors.any? %>

@@ -3,10 +3,10 @@ Todo::Application.routes.draw do
   resources :tasks, :only => [:index, :create, :update, :destroy, :destroy_multiple] do
     post :destroy_multiple, :on => :collection
     get :filter_by_category, :on => :collection
-    put :done, :on => :member
+    post :done, :on => :member
   end
-  resources :users, :except => [:index, :destroy, :new]
-  resources :user_sessions
+  resources :users, :only => [:new, :create, :edit, :update]
+  resources :user_sessions, :only => [:update, :edit, :index]
   match 'login' => 'user_sessions#new', :as => :login
   match 'logout' => 'user_sessions#destroy', :as => :logout
 

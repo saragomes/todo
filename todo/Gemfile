@@ -6,6 +6,8 @@ gem 'authlogic'
 gem 'rake'
 gem 'bootstrap-datepicker-rails'
 gem 'best_in_place'
+gem 'bootstrap-will_paginate'
+gem 'jquery-rails'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -27,10 +29,8 @@ group :test, :development do
   gem 'ruby-debug19'
   gem 'ZenTest'
   gem 'debugger'
+  gem 'simplecov'
 end
-
-gem 'bootstrap-will_paginate'
-gem 'jquery-rails'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

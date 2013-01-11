@@ -11,32 +11,29 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require_self
-//= require jquery
 //= require jquery-latest
 //= require bootstrap.min
 //= require bootstrap-datepicker
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.fr
-//= require jquery.purr
 //= require best_in_place
-//= require jquery_ujs
 //= require jquery-ui
+//= require jquery_ujs
 //= require_tree .
 
-
-$(document).on("focus", "[data-behaviour~='datepicker']", function(e){
-    $(this).datepicker({"format": "dd-mm-yyyy", "weekStart": 1, "autoclose": true});
+$('#form').live('ajax:beforeSend', function(evt, xhr, settings){
+  // prevent double submit
+  $(':submit', this).click(function() {
+    return false;
+  });
 });
 
-function destroy_selection() {
-/*
-  var selectedGroups  = new Array();
-  $("input[@name='tasks_id[]']:checked").each(function() {
-    selectedGroups.push($(this).val());
-  });
-  alert(selectedGroups.values);
-*/
-  $.post("/tasks/destroy_multiple", { 'tasks_ids[]': "[43, 47]", "format": "js" });
-}
+$(document).on("focus", "[data-behaviour~='datepicker']", function(e){
+    $(this).datepicker({dateFormat: 'dd-mm-yy'}); 
+});
+
+jQuery(function($){
+  $.datepicker.setDefaults({ dateFormat: 'dd-mm-yy' }); 
+}); 
 
 function filter_by_category(category) {
   $.get("/tasks/filter_by_category", { 'category': category, "format": "js" });
@@ -54,5 +51,10 @@ $(function() {
 	$('#task_category_id').autocomplete({
 		source: '/tasks/index.js'
 	});
+});
+
+$('#select-all').click(function (event) {
+  var selected = this.checked;
+  $(':checkbox').each(function () {    this.checked = selected; });
 });
 

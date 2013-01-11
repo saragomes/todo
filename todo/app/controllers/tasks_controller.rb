@@ -23,11 +23,9 @@ class TasksController < ApplicationController
     respond_to do |format|
       if @task.save
         @tasks = @current_user.tasks.paginate(:per_page => 20, :page => params[:page]) 
-        format.html { redirect_to tasks_url, notice: 'Task was successfully created.' }
-        format.js { render }
+        format.js
       else
-        format.html { render action: "new" }
-        format.js { render }
+        format.js
       end
     end
   end
@@ -54,6 +52,7 @@ class TasksController < ApplicationController
     @tasks_to_destroy = Task.find params["task_ids"]
     @tasks_to_destroy.each do |task|
       task.destroy
+      task.destroy_category?
     end
     @tasks = @current_user.tasks.paginate(:per_page => 20, :page => params[:page])
     respond_to do |format|

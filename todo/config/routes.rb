@@ -5,8 +5,8 @@ Todo::Application.routes.draw do
     get :filter_by_category, :on => :collection
     post :done, :on => :member
   end
-  resources :users, :except => [:index, :destroy, :new]
-  resources :user_sessions
+  resources :users, :only => [:new, :create, :edit, :update]
+  resources :user_sessions, :only => [:new, :create, :destroy]
   match 'login' => 'user_sessions#new', :as => :login
   match 'logout' => 'user_sessions#destroy', :as => :logout
 
