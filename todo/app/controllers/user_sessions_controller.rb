@@ -1,5 +1,7 @@
 class UserSessionsController < ApplicationController
 
+  before_filter :require_user, :only => :destroy
+  
   def new
     @user = User.new
     respond_to do |format|

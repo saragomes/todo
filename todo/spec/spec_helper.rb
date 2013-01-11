@@ -3,6 +3,9 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
+require 'shoulda'
+require "authlogic/test_case"
+include Authlogic::TestCase
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -45,8 +48,9 @@ def user_session(stubs = {}, user_stubs = {})
   @current_user ||= mock_model(UserSession, {:user => current_user(user_stubs)}.merge(stubs))
 end
 
-def login(session_stubs = {}, user_stubs = {})
-  UserSession.stub!(:find).and_return(user_session(session_stubs, user_stubs))
+def login(user)
+  activate_authlogic
+  UserSession.create user
 end
 
 def logout
