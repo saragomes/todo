@@ -5,7 +5,7 @@ FactoryGirl.define do
     sequence(:name) {|n| "name_#{n}"}
     date "2013-01-07"
     done false
-    category
-    user
+    association :category
+    association :user
   end
 end

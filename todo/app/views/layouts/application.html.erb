@@ -29,11 +29,9 @@
                 <% if current_user %>
                   <li><a href="<%= edit_user_path(current_user) %>"><%= current_user.username %></a></li>
                   <li class="divider-vertical"></li>
-                  <li><a href="/logout">Sign Up</a></li>
+                  <li><a href="/logout">Logout</a></li>
                 <% else %>
-                  <li><a href="/login">Sign In</a></li>
-                  <li class="divider-vertical"></li>
-                  <li><a href="<%= new_user_path %>">Register</a></li>
+                  <li><a href="/login">Sign In | Sign Up</a></li>
                 <% end %>
               </ul>
             </div>
