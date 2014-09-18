@@ -1,4 +1,0 @@
- <div class = "pagination-right">
-  <%#= will_paginate @tasks %>
- </div>
-
